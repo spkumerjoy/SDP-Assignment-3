@@ -1,0 +1,51 @@
+{% extends 'base.html' %} {% block content %} {% if not data %}
+<h2 class="text-center mt-5 text-warning fw-bold">
+    No tasks was added here. So add a task first!!!
+</h2>
+{% else %}
+<div class="row g-4">
+    {% for task in data %}
+    <div class="col-md-4">
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <h4>ID : {{task.id}}</h4>
+                <h5 class="card-title">{{task.title}}</h5>
+                <h6 class="card-subtitle mb-2 text-body-secondary">
+                    {{task.assignDate}}
+                </h6>
+                <p class="card-text">{{task.description}}</p>
+                <div>
+                    {% for category in task.category.all %}
+                    <span class="badge rounded-pill text-bg-primary fs-6 mb-2"
+                        >{{category}}</span
+                    >
+                    {% endfor %}
+                </div>
+                <div style="margin-top: -0.5rem">
+                    {% if task.is_completed == False %}
+                    <a
+                        href="{% url 'edit_task' task.id %}"
+                        class="text-decoration-none text-dark"
+                        ><span class="badge text-bg-warning fs-5 mt-3 me-3"
+                            >Edit</span
+                        ></a
+                    >
+                    <a
+                        href="{% url 'delete_task' task.id %}"
+                        class="text-decoration-none text-light"
+                        ><span class="badge text-bg-danger fs-5 mt-3"
+                            >Delete</span
+                        ></a
+                    >
+                    {% else %}
+                    <span class="badge text-bg-success fs-5 mt-3"
+                        >Completed</span
+                    >
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %} {% endblock %}
